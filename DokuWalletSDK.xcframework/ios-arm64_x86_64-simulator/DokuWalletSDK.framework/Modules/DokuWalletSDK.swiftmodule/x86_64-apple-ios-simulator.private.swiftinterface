@@ -1,0 +1,354 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.8 (swiftlang-5.8.0.124.2 clang-1403.0.22.11.100)
+// swift-module-flags: -target x86_64-apple-ios11.4-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name DokuWalletSDK
+// swift-module-flags-ignorable: -enable-bare-slash-regex
+import Combine
+import Darwin
+import Dispatch
+import Foundation
+import Foundation/*.BlockOperation*/
+import Foundation/*.Date*/
+import Foundation/*.DateFormatter*/
+import Foundation/*.NSCopying*/
+import Foundation/*.NSLock*/
+import Foundation/*.NSObject*/
+import Foundation/*.NSRecursiveLock*/
+import Foundation/*.Operation*/
+import Foundation/*.OperationQueue*/
+import Foundation/*.Thread*/
+import Foundation/*.TimeInterval*/
+import MobileCoreServices
+import Swift
+import SystemConfiguration
+import UIKit
+import UniformTypeIdentifiers
+import _Concurrency
+import _StringProcessing
+public struct DecodeQrisResponse : Swift.Codable {
+  public var responseCode: Swift.String?
+  public var responseMessage: Swift.String?
+  public var referenceNo: Swift.String?
+  public var partnerReferenceNo: Swift.String?
+  public var merchantName: Swift.String?
+  public var merchantCategory: Swift.String?
+  public var merchantLocation: Swift.String?
+  public var transactionAmount: DokuWalletSDK.DecodeQrisAmount?
+  public var feeAmount: DokuWalletSDK.DecodeQrisAmount?
+  public var additionalInfo: DokuWalletSDK.DecodeQrisAdditionalInfo?
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct DecodeQrisAmount : Swift.Codable {
+  public var value: Swift.Double?
+  public var currency: Swift.String?
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct DecodeQrisAdditionalInfo : Swift.Codable {
+  public var pointOfInitiationMethod: Swift.String?
+  public var pointOfInitiationMethodDescription: Swift.String?
+  public var feeType: Swift.String?
+  public var feeTypeDescription: Swift.String?
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct AccountBindingResponse : Swift.Codable {
+  public var referenceNo: Swift.String?
+  public var partnerReferenceNo: Swift.String?
+  public var responseCode: Swift.String?
+  public var responseMessage: Swift.String?
+  public var linkId: Swift.String?
+  public var nextAction: Swift.String?
+  public var redirectUrl: Swift.String?
+  public var userInfo: DokuWalletSDK.UserInfo?
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct UserInfo : Swift.Codable {
+  public var publicUserId: Swift.String?
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct GetTokenB2BResponse : Swift.Codable {
+  public var accessToken: Swift.String?
+  public var tokenType: Swift.String?
+  public var expiresIn: Swift.Int?
+  public var additionalInfo: Swift.String?
+  public var responseCode: Swift.String?
+  public var responseMessage: Swift.String?
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct SnapResponseCode {
+  public static let successGetTokenB2B: Swift.String
+  public static let successGetTokenB2B2C: Swift.String
+  public static let successAccountCreation: Swift.String
+  public static let successVerifyOtp: Swift.String
+  public static let successBindAccount: Swift.String
+  public static let successGenerateQris: Swift.String
+  public static let successQueryQris: Swift.String
+  public static let successInquiryTransferBankSnap: Swift.String
+  public static let successQueryAccountBinding: Swift.String
+  public static let successTransferBankPayment: Swift.String
+  public static let successDecodeQris: Swift.String
+  public static let successPaymentQris: Swift.String
+  public static let invalidOtp: Swift.String
+}
+public enum Endpoint {
+  case getTokenB2B
+  case getTokenB2B2C
+  case createAccount
+  case verifyOtp
+  case bindAccount
+  case generateQris
+  case queryQris
+  case queryAccountBinding
+  case decodeQris
+  case paymentQris
+  public var path: Swift.String {
+    get
+  }
+  public var url: Swift.String {
+    get
+  }
+  public static func == (a: DokuWalletSDK.Endpoint, b: DokuWalletSDK.Endpoint) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct GetTokenB2B2CResponse : Swift.Codable {
+  public var accessToken: Swift.String?
+  public var tokenType: Swift.String?
+  public var accessTokenExpiryTime: Swift.String?
+  public var refreshToken: Swift.String?
+  public var refreshTokenExpiryTime: Swift.String?
+  public var additionalInfo: Swift.String?
+  public var responseCode: Swift.String?
+  public var responseMessage: Swift.String?
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public enum WalletError : Swift.Error {
+  case apiError(responseCode: Swift.String, responseMessage: Swift.String, originalError: any Swift.Error)
+  case networkError(type: DokuWalletSDK.WalletError.NetworkErrorType, originalError: (any Swift.Error)? = nil)
+  public enum NetworkErrorType : Swift.String, Swift.Decodable {
+    case noConnection
+    case clientError400
+    case serverError500
+    case noData
+    case unknownError
+    case decodingError
+    public init?(rawValue: Swift.String)
+    public typealias RawValue = Swift.String
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public enum CodingKeys : Swift.String, Swift.CodingKey {
+    case responseCode
+    case responseMessage
+    public init?(rawValue: Swift.String)
+    public init?(stringValue: Swift.String)
+    public init?(intValue: Swift.Int)
+    public typealias RawValue = Swift.String
+    public var intValue: Swift.Int? {
+      get
+    }
+    public var rawValue: Swift.String {
+      get
+    }
+    public var stringValue: Swift.String {
+      get
+    }
+  }
+}
+public struct BaseResponse : Swift.Codable {
+  public var responseCode: Swift.String?
+  public var responseMessage: Swift.String?
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct PaymentQrisResponse : Swift.Codable {
+  public var responseCode: Swift.String?
+  public var responseMessage: Swift.String?
+  public var referenceNo: Swift.String?
+  public var partnerReferenceNo: Swift.String?
+  public var transactionDate: Swift.String?
+  public var amount: DokuWalletSDK.PaymentQrisAmount?
+  public var feeAmount: DokuWalletSDK.PaymentQrisAmount?
+  public var additionalInfo: DokuWalletSDK.PaymentQrisAdditionalInfo?
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct PaymentQrisAmount : Swift.Codable {
+  public var value: Swift.Double?
+  public var currency: Swift.String?
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct PaymentQrisAdditionalInfo : Swift.Codable {
+  public var approvalCode: Swift.String?
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct QueryQrisResponse : Swift.Codable {
+  public var originalReferenceNo: Swift.String?
+  public var originalPartnerReferenceNo: Swift.String?
+  public var responseCode: Swift.String?
+  public var responseMessage: Swift.String?
+  public var serviceCode: Swift.String?
+  public var latestTransactionStatus: Swift.String?
+  public var transactionStatusDesc: Swift.String?
+  public var paidTime: Swift.String?
+  public var amount: DokuWalletSDK.QueryQrisAmount?
+  public var feeAmount: DokuWalletSDK.QueryQrisFeeAmount?
+  public var approvalCode: Swift.String?
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct QueryQrisAmount : Swift.Codable {
+  public var value: Swift.Double?
+  public var currency: Swift.String?
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct QueryQrisFeeAmount : Swift.Codable {
+  public var value: Swift.Double?
+  public var currency: Swift.String?
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct VerifyOtpResponse : Swift.Codable {
+  public var originalPartnerReferenceNo: Swift.String?
+  public var originalReferenceNo: Swift.String?
+  public var responseCode: Swift.String?
+  public var responseMessage: Swift.String?
+  public var email: Swift.String?
+  public var phoneNo: Swift.String?
+  public var sendOtpFlag: Swift.String?
+  public var qparamsURL: Swift.String?
+  public var qparams: DokuWalletSDK.QParams?
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct QParams : Swift.Codable {
+  public var token: Swift.String?
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+@_hasMissingDesignatedInitializers public class Wallet {
+  public static let sharedInstance: DokuWalletSDK.Wallet
+  public var debugMode: Swift.Bool
+  public func getTokenB2B(headers: [Swift.String : Any], parameters: [Swift.String : Any], completion: @escaping (Swift.Result<DokuWalletSDK.GetTokenB2BResponse, DokuWalletSDK.WalletError>) -> Swift.Void)
+  public func createAccount(headers: [Swift.String : Any], parameters: [Swift.String : Any], completion: @escaping (Swift.Result<DokuWalletSDK.AccountCreationResponse, DokuWalletSDK.WalletError>) -> Swift.Void)
+  public func verifyOtp(headers: [Swift.String : Any], parameters: [Swift.String : Any], completion: @escaping (Swift.Result<DokuWalletSDK.VerifyOtpResponse, DokuWalletSDK.WalletError>) -> Swift.Void)
+  public func bindAccount(headers: [Swift.String : Any], parameters: [Swift.String : Any], completion: @escaping (Swift.Result<DokuWalletSDK.AccountBindingResponse, DokuWalletSDK.WalletError>) -> Swift.Void)
+  public func getTokenB2B2C(headers: [Swift.String : Any], parameters: [Swift.String : Any], completion: @escaping (Swift.Result<DokuWalletSDK.GetTokenB2B2CResponse, DokuWalletSDK.WalletError>) -> Swift.Void)
+  public func generateQris(headers: [Swift.String : Any], parameters: [Swift.String : Any], completion: @escaping (Swift.Result<DokuWalletSDK.GenerateQrisResponse, DokuWalletSDK.WalletError>) -> Swift.Void)
+  public func queryQris(headers: [Swift.String : Any], parameters: [Swift.String : Any], completion: @escaping (Swift.Result<DokuWalletSDK.QueryQrisResponse, DokuWalletSDK.WalletError>) -> Swift.Void)
+  public func decodeQris(headers: [Swift.String : Any], parameters: [Swift.String : Any], completion: @escaping (Swift.Result<DokuWalletSDK.DecodeQrisResponse, DokuWalletSDK.WalletError>) -> Swift.Void)
+  public func paymentQris(headers: [Swift.String : Any], parameters: [Swift.String : Any], completion: @escaping (Swift.Result<DokuWalletSDK.PaymentQrisResponse, DokuWalletSDK.WalletError>) -> Swift.Void)
+  public func queryAccountBinding(headers: [Swift.String : Any], parameters: [Swift.String : Any], completion: @escaping (Swift.Result<DokuWalletSDK.QueryAccountBindingResponse, DokuWalletSDK.WalletError>) -> Swift.Void)
+  @objc deinit
+}
+public struct GenerateQrisResponse : Swift.Codable {
+  public var referenceNo: Swift.String?
+  public var partnerReferenceNo: Swift.String?
+  public var responseCode: Swift.String?
+  public var responseMessage: Swift.String?
+  public var qrContent: Swift.String?
+  public var terminalId: Swift.String?
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public enum WalletResponseError : Swift.Error {
+  case invalidResponse(responseCode: Swift.String, responseMessage: Swift.String)
+  case genericError
+}
+public struct ApiError : Foundation.LocalizedError {
+  public let responseCode: Swift.String
+  public let responseMessage: Swift.String
+}
+public struct QueryAccountBindingResponse : Swift.Codable {
+  public var responseCode: Swift.String?
+  public var responseMessage: Swift.String?
+  public var partnerReferenceNo: Swift.String?
+  public var additionalInfo: DokuWalletSDK.QueryAccountBindingAdditionalInfo?
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct QueryAccountBindingAdditionalInfo : Swift.Codable {
+  public var linkId: Swift.String?
+  public var authCode: Swift.String?
+  public var remarks: Swift.String?
+  public var merchantId: Swift.String?
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+@_hasMissingDesignatedInitializers public class SnapHelper {
+  public static let shared: DokuWalletSDK.SnapHelper
+  public func getCurrentTimestamp() -> Swift.String
+  public func stringToQrCode(qr: Swift.String) -> UIKit.UIImage?
+  @objc deinit
+}
+public struct QrisPointOfInitiationMethod {
+  public static let qrisStatic: Swift.String
+  public static let qrisDynamic: Swift.String
+}
+public struct AccountCreationResponse : Swift.Codable {
+  public var partnerReferenceNo: Swift.String?
+  public var referenceNo: Swift.String?
+  public var responseCode: Swift.String?
+  public var responseMessage: Swift.String?
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct WalletRequest {
+  public static let clientKey: Swift.String
+  public static let timestamp: Swift.String
+  public static let signature: Swift.String
+  public static let grantType: Swift.String
+  public static let authCode: Swift.String
+  public static let partnerId: Swift.String
+  public static let externalId: Swift.String
+  public static let authorization: Swift.String
+  public static let partnerReferenceNo: Swift.String
+  public static let email: Swift.String
+  public static let name: Swift.String
+  public static let phoneNo: Swift.String
+  public static let redirectUrl: Swift.String
+  public static let originalPartnerReferenceNo: Swift.String
+  public static let originalReferenceNo: Swift.String
+  public static let otp: Swift.String
+  public static let additionalInfo: Swift.String
+  public static let deviceId: Swift.String
+  public static let successParams: Swift.String
+  public static let accountId: Swift.String
+  public static let authorizationCustomer: Swift.String
+  public static let amount: Swift.String
+  public static let value: Swift.String
+  public static let currency: Swift.String
+  public static let feeAmount: Swift.String
+  public static let merchantId: Swift.String
+  public static let terminalId: Swift.String
+  public static let postalCode: Swift.String
+  public static let feeType: Swift.String
+  public static let serviceCode: Swift.String
+  public static let bankCode: Swift.String
+  public static let customerNumber: Swift.String
+  public static let beneficiaryAccountNumber: Swift.String
+  public static let beneficiaryBankCode: Swift.String
+  public static let referenceNo: Swift.String
+  public static let qrContent: Swift.String
+  public static let scanTime: Swift.String
+  public static let status: Swift.String
+}
+extension DokuWalletSDK.Endpoint : Swift.Equatable {}
+extension DokuWalletSDK.Endpoint : Swift.Hashable {}
+extension DokuWalletSDK.WalletError.NetworkErrorType : Swift.Equatable {}
+extension DokuWalletSDK.WalletError.NetworkErrorType : Swift.Hashable {}
+extension DokuWalletSDK.WalletError.NetworkErrorType : Swift.RawRepresentable {}
+extension DokuWalletSDK.WalletError.CodingKeys : Swift.Equatable {}
+extension DokuWalletSDK.WalletError.CodingKeys : Swift.Hashable {}
+extension DokuWalletSDK.WalletError.CodingKeys : Swift.RawRepresentable {}

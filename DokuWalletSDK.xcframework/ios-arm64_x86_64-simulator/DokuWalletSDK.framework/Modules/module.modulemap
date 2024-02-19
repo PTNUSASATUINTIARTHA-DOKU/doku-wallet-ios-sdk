@@ -1,0 +1,4 @@
+framework module DokuWalletSDK {
+  header "DokuWalletSDK-Swift.h"
+  requires objc
+}
